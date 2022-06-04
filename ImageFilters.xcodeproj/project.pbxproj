@@ -90,6 +90,7 @@
 		A401EC0F284BFA8400E0204C /* thirdKernel.ci.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = thirdKernel.ci.metal; sourceTree = "<group>"; };
 		A401EC10284BFA8400E0204C /* forthKernel.ci.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = forthKernel.ci.metal; sourceTree = "<group>"; };
 		A401EC18284BFC4E00E0204C /* MetalFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalFilterViewModel.swift; sourceTree = "<group>"; };
+		A4F49418284C0CCA00B62E40 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +121,7 @@
 		A401EBC9284BF7BA00E0204C = {
 			isa = PBXGroup;
 			children = (
+				A4F49418284C0CCA00B62E40 /* README.md */,
 				A401EBD4284BF7BA00E0204C /* ImageFilters */,
 				A401EBEB284BF7C400E0204C /* ImageFiltersTests */,
 				A401EBF5284BF7C500E0204C /* ImageFiltersUITests */,
@@ -140,14 +142,13 @@
 		A401EBD4284BF7BA00E0204C /* ImageFilters */ = {
 			isa = PBXGroup;
 			children = (
+				A4F49419284C0F7400B62E40 /* Home */,
 				A401EC07284BF87F00E0204C /* Filters */,
 				A401EC05284BF7D400E0204C /* Extensions */,
 				A401EBD5284BF7BA00E0204C /* AppDelegate.swift */,
 				A401EBDE284BF7C400E0204C /* Assets.xcassets */,
 				A401EBE0284BF7C400E0204C /* LaunchScreen.storyboard */,
 				A401EBE3284BF7C400E0204C /* Info.plist */,
-				A401EC0A284BF8DD00E0204C /* HomeVC.swift */,
-				A401EC18284BFC4E00E0204C /* MetalFilterViewModel.swift */,
 			);
 			path = ImageFilters;
 			sourceTree = "<group>";
@@ -187,6 +188,15 @@
 				A401EC0F284BFA8400E0204C /* thirdKernel.ci.metal */,
 			);
 			path = Filters;
+			sourceTree = "<group>";
+		};
+		A4F49419284C0F7400B62E40 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A401EC18284BFC4E00E0204C /* MetalFilterViewModel.swift */,
+				A401EC0A284BF8DD00E0204C /* HomeVC.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
