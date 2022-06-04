@@ -8,10 +8,16 @@
 import Foundation
 import CoreImage
 
-class MetalFilterViewModel: CIFilter{
+// view model class to act as intermediate between the main vc and the shaders
+class MetalFilterViewModel{
+    // this will contain the image to be filtered
     var inputImage: CIImage?
     
-    var firstKernel: CIColorKernel = { () -> CIColorKernel in
+    
+    // these are 5 computed properties that will access the shader bundles //
+    
+    // firstKernel
+    var firstKernel: CIColorKernel = {
         guard let url = Bundle.main.url(
           forResource: "firstKernel.ci",
           withExtension: "metallib"),
@@ -28,6 +34,7 @@ class MetalFilterViewModel: CIFilter{
         return kernel
       }()
     
+    // secondKernel
     var secondKernel: CIColorKernel = { () -> CIColorKernel in
         guard let url = Bundle.main.url(
           forResource: "secondKernel.ci",
@@ -45,6 +52,7 @@ class MetalFilterViewModel: CIFilter{
         return kernel
       }()
     
+    // thirdKernel
     var thirdKernel: CIColorKernel = { () -> CIColorKernel in
         guard let url = Bundle.main.url(
           forResource: "thirdKernel.ci",
@@ -62,6 +70,7 @@ class MetalFilterViewModel: CIFilter{
         return kernel
       }()
     
+    // forthKernel
     var forthKernel: CIColorKernel = { () -> CIColorKernel in
         guard let url = Bundle.main.url(
           forResource: "forthKernel.ci",
@@ -79,6 +88,7 @@ class MetalFilterViewModel: CIFilter{
         return kernel
       }()
     
+    // fifthKernel
     var fifthKernel: CIColorKernel = { () -> CIColorKernel in
         guard let url = Bundle.main.url(
           forResource: "fifthKernel.ci",
@@ -96,14 +106,7 @@ class MetalFilterViewModel: CIFilter{
         return kernel
       }()
     
-    override init() {
-        super.init()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    // returning a ciimage after apply filter using kernal properties based on index of filter
     func outputImage(_ index: Int) -> CIImage? {
         guard let inputImage = inputImage else {return nil}
         switch index{

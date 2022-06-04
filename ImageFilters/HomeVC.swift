@@ -7,9 +7,13 @@
 
 import UIKit
 
+// Main View Controller
 class HomeVC: UIViewController {
 
+    // enabling selecting images from liberary
     var imagePicker = UIImagePickerController()
+    
+    // this variable will contain seleceted image to apply filter, and has an initial value from assest
     var originalImage = UIImage(named: "HMD-RMB-2")
     
     let imageView: UIImageView = {
@@ -22,21 +26,24 @@ class HomeVC: UIViewController {
         return scroll
     }()
 
+    // these properties are to calculate dymentions and content size of the scroll view
     let width:CGFloat = 100
     let height:CGFloat = 100
     var xposition:CGFloat = 10
     var scroll_contont:CGFloat = 0
+    
+    // array will contain 5 buttons each will apply specific shader
     var buttons : [UIButton] = []
     
+    // this is an innstance of the view model class that will enable shaders
     let filter: MetalFilterViewModel = MetalFilterViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
         view.backgroundColor = .white
         configUI()
     }
-    
+    // adding subViews and assigning constraints
     func configUI(){
         imageView.image = originalImage
         view.backgroundColor = .white
@@ -63,18 +70,12 @@ class HomeVC: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectPressed))
     }
     
-    func convert(cmage:CIImage?) -> UIImage?
-    {
-        let context:CIContext = CIContext.init(options: nil)
-        let cgImage:CGImage = context.createCGImage(cmage!, from: cmage!.extent)!
-        let image:UIImage = UIImage.init(cgImage: cgImage)
-        return image
-    }
-    
+    // save button action
     @objc func savePressed(){
         guard let image = imageView.image else { return }
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
+    
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         guard error == nil else{return}
         let ac = UIAlertController(title: "Saved!", message: "Your altered image has been saved to your photos.", preferredStyle: .alert)
@@ -82,30 +83,36 @@ class HomeVC: UIViewController {
         present(ac, animated: true)
     }
     
+    // open photo liberary based on select button action
     @objc func selectPressed(){
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
             imagePicker.allowsEditing = false
-
             present(imagePicker, animated: true, completion: nil)
         }
     }
     
+    // apply custom filter when press each button in the bottom scroll
     @objc func buttonAction(sender: UIButton!){
         imageView.image = applyFilter(at: sender.tag)
     }
     
+    // this function will apply custom filter and return UIImage after convertion
     func applyFilter(at index: Int) -> UIImage?{
         filter.inputImage =  CIImage(image: originalImage!)
         let outputImage = filter.outputImage(index)
         let image = convert(cmage: outputImage)
         return image
     }
-    func createButtonsFilter(){
-        for i in 0..<5{
-            buttons[i].setImage(applyFilter(at: i), for: .normal)
-        }
+    
+    // after applying filter, convert the returned data to image
+    func convert(cmage:CIImage?) -> UIImage?
+    {
+        let context:CIContext = CIContext.init(options: nil)
+        let cgImage:CGImage = context.createCGImage(cmage!, from: cmage!.extent)!
+        let image:UIImage = UIImage.init(cgImage: cgImage)
+        return image
     }
 }
 
@@ -117,6 +124,13 @@ extension HomeVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
             originalImage = image
             imageView.image = originalImage
             createButtonsFilter()
+        }
+    }
+    
+    // create 5 filter button categories for the image, each contain image thumbnail to display filter effect
+    func createButtonsFilter(){
+        for i in 0..<5{
+            buttons[i].setImage(applyFilter(at: i), for: .normal)
         }
     }
 }
